@@ -198,39 +198,74 @@ document.addEventListener("DOMContentLoaded", function () {
           start: "top top",
           end: () => `+=${pinWrapWidth}`,
           invalidateOnRefresh: true,
-          onEnter: () => {
-            // console.log("Entering slide", index);
-            updatePagination(index, true);
-          },
-          onLeave: () => {
-            // console.log("Leaving slide", index);
-            updatePagination(index, false);
-          },
-          onEnterBack: () => updatePagination(index, true),
-          onLeaveBack: () => updatePagination(index, false),
         },
         x: -horizontalScrollLength,
         ease: "none",
       });
 
+      //Обработка координат и состояний кастомного курсора
+      const cursor = horizontalSection.querySelector(".custom-cursor");
       
+      let mouseX = 0;
+      let mouseY = 0;
+      let lastScrollY = 0;
+      let scrollDirection = null;
+
+      function updateCursor() {
+        const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
+        if (
+          elementUnderCursor &&
+          elementUnderCursor.closest(".horizontal-scroll")
+        ) {
+          const sectionTop = horizontalSection.getBoundingClientRect().top;
+          const pinWrap = horizontalSection.querySelector(".pin-wrap");
+          const transformMatrix = window
+            .getComputedStyle(pinWrap)
+            .getPropertyValue("transform");
+          const transformValue = Number(transformMatrix.split(",")[4].trim());
+          const scrollProgress =
+            (Math.abs(transformValue) / horizontalScrollLength) * 100;
+          let rotation = 0;
+
+          if (scrollProgress <= 2) {
+            rotation = scrollDirection === "up" ? -90 : 90;
+          } else if (scrollProgress >= 97) {
+            rotation = scrollDirection === "up" ? -90 : 90;
+          } else {
+            rotation = scrollDirection === "up" ? -180 : 0;
+          }
+
+          cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+          cursor.style.left = mouseX + "px";
+          cursor.style.top = mouseY - sectionTop + "px";
+          cursor.style.display = "block";
+          cursor.classList.add("custom-cursor--active");
+          horizontalSection.style.cursor = "none";
+          horizontalSection.style.overflow = "visible";
+        } else {
+          cursor.style.display = "none";
+          cursor.classList.remove("custom-cursor--active");
+          horizontalSection.style.overflow = "hidden";
+        }
+      }
+
+      window.addEventListener("mousemove", function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        updateCursor();
+      });
+
+      scroller.on("scroll", (instance) => {
+        scrollDirection = lastScrollY > instance.scroll.y ? "up" : "down";
+        lastScrollY = instance.scroll.y;
+        updateCursor();
+      });
+
+
+
     });
 
-    //Пагинация
-
-    function updatePagination(index, isActive) {
-      console.log("Updating pagination for slide", index);
-      const dots = document.querySelectorAll(".scroll-section__pagination-dot");
-      dots.forEach((dot, i) => {
-        if (i === index && isActive) {
-          dot.classList.add("scroll-section__pagination-dot--active");
-        } else if (i === index) {
-          dot.classList.remove("scroll-section__pagination-dot--active");
-        }
-      });
-    }
-
-    //color change
+    //Меняем цвет фона секции
     const scrollColorElems = document.querySelectorAll("[data-bgcolor]");
     scrollColorElems.forEach((colorSection, i) => {
       const prevBg = i === 0 ? "" : scrollColorElems[i - 1].dataset.bgcolor;
@@ -333,8 +368,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ScrollTrigger.addEventListener("refresh", () => scroller.update());
 
     ScrollTrigger.refresh();
-
-
 
   }
 
@@ -701,6 +734,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Сворачиваем блоки длинные текста
 //Обязательно указать высоту строки для сворачиваемого блока
+
 //В отзывах 8-9 строк
 $(".expander__wrapper").each(function () {
   let wrapper = $(this);
@@ -738,6 +772,7 @@ $(".expander__wrapper").each(function () {
     }
   });
 });
+
 //4-5 строк футер и педсостав
 $(".expander__wrapper--4-5").each(function () {
   let wrapper = $(this);
