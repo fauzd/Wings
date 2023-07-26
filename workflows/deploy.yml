@@ -12,13 +12,13 @@ jobs:
 
       - name: Move files
         run: |
-          mkdir docs
-          mv dist/* docs/
-          
+          rsync -a dist/ docs/
+          touch docs/.nojekyll
+
       - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Move dist files to docs folder"
+          git commit -m "Move dist files to docs folder and add .nojekyll"
           git push
