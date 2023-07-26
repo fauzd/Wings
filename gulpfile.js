@@ -66,7 +66,15 @@ function images() {
 
 function scripts() { 
   return src([
-    'app/js/main.js'
+    'app/js/main.js',
+    'fancybox.umd.js',
+    'locomotive-scroll.js',
+    'ScrollTrigger.min.js',
+    'gsap.min.js',
+    'jquery-3.7.0.min.js',
+    'slick.min.js',
+    'swiper-bundle.min.js',
+    'animation.gsap.min.js'
   ])
     .pipe(concat('main.min.js'))
     .pipe(uglify())
@@ -75,12 +83,15 @@ function scripts() {
 }
 
 function styles() {
-  return src('app/scss/style.scss')
-  .pipe(autoprefixer({overrideBrowserslist: ['last 10 version']}))
-  .pipe(concat('style.min.css'))
-  .pipe(scss({outputStyle: 'compressed'}))
-  .pipe(dest('app/css'))
-  .pipe(browserSync.stream());
+  return src([
+    "app/scss/style.scss",
+    'css/*.*'
+])
+    .pipe(autoprefixer({ overrideBrowserslist: ["last 10 version"] }))
+    .pipe(concat("style.min.css"))
+    .pipe(scss({ outputStyle: "compressed" }))
+    .pipe(dest("app/css"))
+    .pipe(browserSync.stream());
 }
 
 function watching() {
