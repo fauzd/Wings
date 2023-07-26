@@ -12,6 +12,7 @@ jobs:
 
       - name: Move files
         run: |
+          mkdir docs
           mv dist/* docs/
           
       - name: Commit and push
