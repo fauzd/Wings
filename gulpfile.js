@@ -97,7 +97,7 @@ function watching() {
 }
 
 function cleanDist() {
-  return src('dist')
+  return src('docs')
     .pipe(clean())
 }
 
