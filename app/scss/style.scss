@@ -1,9 +1,15 @@
 @import "../../node_modules/normalize.css/normalize";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+@import "../css/fancybox.css";
+@import "../css/locomotive-scroll.min.css";
+@import "../css/slick.css";
+@import "../css/slick-theme.css";
+@import "../css/swiper-bundle.min.css";
 
 $theme-colors: (
   "primary": #84a2ff,
 );
-@import "../../node_modules/bootstrap/scss/bootstrap";
 
 $hoverBgColor: #84a2ff;
 $hoverColor: #000;
@@ -835,9 +841,7 @@ fancybox-container img:active {
     justify-content: center;
     &::before {
       content: " ";
-      background-image: url(../images/people-persons-bg-1.svg);
       display: inline-block;
-      height: auto;
       width: 230px;
       height: 230px;
       background-size: contain;
@@ -848,24 +852,24 @@ fancybox-container img:active {
       left: 50%;
       transform: translateX(-50%);
     }
-  }
-  &:nth-child(6n + 1) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-1.svg);
-  }
-  &:nth-child(6n + 2) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-2.svg);
-  }
-  &:nth-child(6n + 3) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-3.svg);
-  }
-  &:nth-child(6n + 4) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-4.svg);
-  }
-  &:nth-child(6n + 5) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-5.svg);
-  }
-  &:nth-child(6n + 6) .swiper-slide__img-wrapper::before {
-    background-image: url(../images/people-persons-bg-6.svg);
+    &[data-bg="1"]::before {
+      background-image: url(../images/people-persons-bg-1.svg);
+    }
+    &[data-bg="2"]::before {
+      background-image: url(../images/people-persons-bg-2.svg);
+    }
+    &[data-bg="3"]::before {
+      background-image: url(../images/people-persons-bg-3.svg);
+    }
+    &[data-bg="4"]::before {
+      background-image: url(../images/people-persons-bg-4.svg);
+    }
+    &[data-bg="5"]::before {
+      background-image: url(../images/people-persons-bg-5.svg);
+    }
+    &[data-bg="6"]::before {
+      background-image: url(../images/people-persons-bg-6.svg);
+    }
   }
   &__text-wrapper {
     width: 75%;

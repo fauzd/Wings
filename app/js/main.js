@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  //Делаем скроллер и глобально видимым
+  let scroller;
+  //При скролле к секции наверн будет выплывать хэдер, 
+  //поэтому оставляем ему место, тут объявляем его и его высоту,
+  //сейчас это фикс, поэтому так
+  let headerHeightFixed = 150;
   //Прячем хэдер
   //В мобильной версии
   if (window.innerWidth < 576) {
@@ -157,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const pageContainer = document.querySelector(".main");
     pageContainer.setAttribute("data-scroll-container", "");
 
-    const scroller = new LocomotiveScroll({
+    scroller = new LocomotiveScroll({
       el: pageContainer,
       smooth: true,
       getDirection: true,
@@ -205,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //Обработка координат и состояний кастомного курсора
       const cursor = horizontalSection.querySelector(".custom-cursor");
-      
+
       let mouseX = 0;
       let mouseY = 0;
       let lastScrollY = 0;
@@ -260,9 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
         lastScrollY = instance.scroll.y;
         updateCursor();
       });
-
-
-
     });
 
     //Меняем цвет фона секции
@@ -324,6 +327,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       },
     });
+
+    ScrollTrigger.refresh();
     //Мониторим параметры скролла в корневом элементе и при нулях
     //возвращаем стили хэдера
     // Выберите элемент, который вы хотите наблюдать
@@ -368,7 +373,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ScrollTrigger.addEventListener("refresh", () => scroller.update());
 
     ScrollTrigger.refresh();
-
   }
 
   //Фотографии школы
@@ -528,20 +532,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   if (window.innerWidth < 936) {
-  let timetableInnerSwipers = document
-    .querySelectorAll(".timetable-daily__swiper-container")
-    .forEach(function (element) {
-      new Swiper(element, {
-        slidesPerView: "auto",
-        centeredSlides: true,
-        spaceBetween: 30,
-        navigation: {
-          nextEl: ".timetable-daily__swiper-button-next",
-          prevEl: ".timetable-daily__swiper-button-prev",
-        },
+    let timetableInnerSwipers = document
+      .querySelectorAll(".timetable-daily__swiper-container")
+      .forEach(function (element) {
+        new Swiper(element, {
+          slidesPerView: "auto",
+          centeredSlides: true,
+          spaceBetween: 30,
+          navigation: {
+            nextEl: ".timetable-daily__swiper-button-next",
+            prevEl: ".timetable-daily__swiper-button-prev",
+          },
+        });
       });
-    });
-  } 
+  }
 
   // Load the first tab content on page load
   window.onload = function () {
@@ -666,9 +670,18 @@ document.addEventListener("DOMContentLoaded", function () {
           // Меняем текст кнопки обратно на "Еще смотреть"
           button.textContent = "Еще смотреть";
           // Прокручиваем страницу к элементу с id="people__swiper-wrapper"
-          document
-            .getElementById("people__swiper-wrapper")
-            .scrollIntoView({ behavior: "smooth" });
+          let currentScrollPosition = scroller.scroll.instance.scroll.y;
+
+          let targetElement = document.getElementById("people__swiper-wrapper");
+          let targetPosition =
+            targetElement.getBoundingClientRect().top +
+            currentScrollPosition -
+            headerHeightFixed;
+
+          console.log("currentScrollPosition is " + currentScrollPosition);
+          console.log("targetPosition is " + targetPosition);
+
+          scroller.scrollTo(targetPosition, { duration: 800 });
         } else {
           // Если есть скрытые карточки, показываем следующие три
           for (let i = 0; i < 3; i++) {
@@ -688,237 +701,245 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-
-  
   //testimonials
-  
 
   //testimomial swiper
-  $(document).ready(function(){
-      $(".testimonials__slider").slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        // centerMode: true,
+  $(document).ready(function () {
+    $(".testimonials__slider").slick({
+      dots: false,
+      infinite: false,
+      speed: 300,
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      // centerMode: true,
+      infinite: true,
+      arros: true,
+      nextArrow: $(".testimonials__arrow--next"),
+      prevArrow: $(".testimonials__arrow--prev"),
+      responsive: [
+        {
+          breakpoint: 963,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            arros: false,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+            // centerMode: false,
+            arrows: true,
+            nextArrow: $(".testimonials__arrow--next"),
+            prevArrow: $(".testimonials__arrow--prev"),
+          },
+        },
+      ],
+    });
+  });
+
+  // Сворачиваем блоки длинные текста
+  //Обязательно указать высоту строки для сворачиваемого блока
+
+  //В отзывах 8-9 строк
+  $(".expander__wrapper").each(function () {
+    let wrapper = $(this);
+    let textElement = wrapper.find(".expander__text");
+    let fullHeight;
+
+    const maxLinesMobile = 9;
+    const maxLinesDesktop = 8;
+
+    let lineHeight = parseFloat(textElement.css("line-height"));
+    let maxLines = window.innerWidth < 936 ? maxLinesMobile : maxLinesDesktop;
+    let maxHeight = lineHeight * maxLines;
+
+    let button = $('<button class="expander__button">Читать далее</button>');
+    textElement.after(button);
+    textElement.css("overflow", "hidden");
+    textElement.css("height", maxHeight + "px");
+
+    button.on("click", function () {
+      fullHeight = textElement.prop("scrollHeight");
+
+      if (textElement.height() > maxHeight) {
+        textElement.animate({ height: maxHeight + "px" });
+        $(this).text("Читать далее");
+      } else {
+        textElement.animate({ height: fullHeight + "px" });
+        $(this).text("Свернуть");
+      }
+    });
+
+    button.on("blur", function () {
+      if (textElement.height() > maxHeight) {
+        textElement.animate({ height: maxHeight + "px" });
+        button.text("Читать далее");
+      }
+    });
+  });
+
+  //4-5 строк футер и педсостав
+  $(".expander__wrapper--4-5").each(function () {
+    let wrapper = $(this);
+    let textElement = wrapper.find(".expander__text--4-5");
+    let fullHeight;
+
+    const maxLinesMobile = 4;
+    const maxLinesDesktop = 5;
+
+    let lineHeight = parseFloat(textElement.css("line-height"));
+    let maxLines = window.innerWidth < 936 ? maxLinesMobile : maxLinesDesktop;
+    let maxHeight = lineHeight * maxLines;
+
+    let button = $(
+      '<button class="expander__button--4-5">Читать далее</button>'
+    );
+    textElement.after(button);
+    textElement.css("overflow", "hidden");
+    textElement.css("height", maxHeight + "px");
+
+    button.on("click", function () {
+      fullHeight = textElement.prop("scrollHeight");
+
+      if (textElement.height() > maxHeight) {
+        textElement.animate({ height: maxHeight + "px" });
+        $(this).text("Читать далее");
+      } else {
+        textElement.animate({ height: fullHeight + "px" });
+        $(this).text("Свернуть");
+      }
+    });
+
+    button.on("blur", function () {
+      if (textElement.height() > maxHeight) {
+        textElement.animate({ height: maxHeight + "px" });
+        button.text("Читать далее");
+      }
+    });
+  });
+
+  //accordion-questions
+  const acc = document.getElementsByClassName("questions__button");
+
+  for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      const active = document.querySelector(".questions__button--active");
+      if (active && active != this) {
+        active.classList.remove("questions__button--active");
+        active.nextElementSibling.style.maxHeight = null;
+        active.innerHTML = active.innerHTML.replace("-", "+");
+      }
+      this.classList.toggle("questions__button--active");
+      const panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        this.innerHTML = this.innerHTML.replace("-", "+");
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        this.innerHTML = this.innerHTML.replace("+", "-");
+      }
+    });
+  }
+
+  //footer swiper
+  let footerSwiper;
+  let numOfSlides = document.querySelectorAll(".footer__news-slide").length;
+  let numOfSlidesToAdd = numOfSlides % 2;
+
+  if (window.innerWidth < 936) {
+    footerSwiper = new Swiper(".footer__news-swiper", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      centeredSlides: true,
+      loop: true,
+      navigation: {
+        nextEl: ".footer__slider-arrow--next",
+        prevEl: ".footer__slider-arrow--prev",
+      },
+    });
+  } else {
+    //slick
+    $(document).ready(function () {
+      $(".footer__slick-slider").slick({
         infinite: true,
-        arros: true,
-        nextArrow: $(".testimonials__arrow--next"),
-        prevArrow: $(".testimonials__arrow--prev"),
-        responsive: [
-          {
-            breakpoint: 963,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              arros: false,
-            },
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              infinite: true,
-              // centerMode: false,
-              arrows: true,
-              nextArrow: $(".testimonials__arrow--next"),
-              prevArrow: $(".testimonials__arrow--prev"),
-            },
-          },
-        ],
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: true,
+        nextArrow: $(".footer__slick-arrow"),
+        prevArrow: false,
+        autoplay: false,
+        autoplaySpeed: 2000,
       });
     });
-});
+  }
 
-// Сворачиваем блоки длинные текста
-//Обязательно указать высоту строки для сворачиваемого блока
-
-//В отзывах 8-9 строк
-$(".expander__wrapper").each(function () {
-  let wrapper = $(this);
-  let textElement = wrapper.find(".expander__text");
-  let fullHeight;
-
-  const maxLinesMobile = 9;
-  const maxLinesDesktop = 8;
-
-  let lineHeight = parseFloat(textElement.css("line-height"));
-  let maxLines = window.innerWidth < 936 ? maxLinesMobile : maxLinesDesktop;
-  let maxHeight = lineHeight * maxLines;
-
-  let button = $('<button class="expander__button">Читать далее</button>');
-  textElement.after(button);
-  textElement.css("overflow", "hidden");
-  textElement.css("height", maxHeight + "px");
-
-  button.on("click", function () {
-    fullHeight = textElement.prop("scrollHeight");
-
-    if (textElement.height() > maxHeight) {
-      textElement.animate({ height: maxHeight + "px" });
-      $(this).text("Читать далее");
-    } else {
-      textElement.animate({ height: fullHeight + "px" });
-      $(this).text("Свернуть");
-    }
-  });
-
-  button.on("blur", function () {
-    if (textElement.height() > maxHeight) {
-      textElement.animate({ height: maxHeight + "px" });
-      button.text("Читать далее");
-    }
-  });
-});
-
-//4-5 строк футер и педсостав
-$(".expander__wrapper--4-5").each(function () {
-  let wrapper = $(this);
-  let textElement = wrapper.find(".expander__text--4-5");
-  let fullHeight;
-
-  const maxLinesMobile = 4;
-  const maxLinesDesktop = 5;
-
-  let lineHeight = parseFloat(textElement.css("line-height"));
-  let maxLines = window.innerWidth < 936 ? maxLinesMobile : maxLinesDesktop;
-  let maxHeight = lineHeight * maxLines;
-
-  let button = $('<button class="expander__button--4-5">Читать далее</button>');
-  textElement.after(button);
-  textElement.css("overflow", "hidden");
-  textElement.css("height", maxHeight + "px");
-
-  button.on("click", function () {
-    fullHeight = textElement.prop("scrollHeight");
-
-    if (textElement.height() > maxHeight) {
-      textElement.animate({ height: maxHeight + "px" });
-      $(this).text("Читать далее");
-    } else {
-      textElement.animate({ height: fullHeight + "px" });
-      $(this).text("Свернуть");
-    }
-  });
-
-  button.on("blur", function () {
-    if (textElement.height() > maxHeight) {
-      textElement.animate({ height: maxHeight + "px" });
-      button.text("Читать далее");
-    }
-  });
-});
-
-
-
-
-
-//accordion-questions
-const acc = document.getElementsByClassName("questions__button");
-
-for (let i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function () {
-    const active = document.querySelector(".questions__button--active");
-    if (active && active != this) {
-      active.classList.remove("questions__button--active");
-      active.nextElementSibling.style.maxHeight = null;
-      active.innerHTML = active.innerHTML.replace("-", "+");
-    }
-    this.classList.toggle("questions__button--active");
-    const panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-      this.innerHTML = this.innerHTML.replace("-", "+");
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-      this.innerHTML = this.innerHTML.replace("+", "-");
-    }
-  });
-}
-
-//footer swiper
-let footerSwiper;
-let numOfSlides = document.querySelectorAll(".footer__news-slide").length;
-let numOfSlidesToAdd = numOfSlides % 2;
-
-if (window.innerWidth < 936) {
-  footerSwiper = new Swiper(".footer__news-swiper", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    centeredSlides: true,
-    loop: true,
-    navigation: {
-      nextEl: ".footer__slider-arrow--next",
-      prevEl: ".footer__slider-arrow--prev",
-    },
-  });
-} else {
-  //slick
-  $(document).ready(function () {
-    $(".footer__slick-slider").slick({
-      infinite: true,
-      slidesToShow: 2,
-      slidesToScroll: 1,
-      dots: false,
-      arrows: true,
-      nextArrow: $(".footer__slick-arrow"),
-      prevArrow: false,
-      autoplay: false,
-      autoplaySpeed: 2000,
+  //YandexMap
+  ymaps.ready(init);
+  function init() {
+    var myMap = new ymaps.Map("map", {
+      center: [59.961691, 30.308902], // координаты центра карты
+      zoom: 17,
+      controls: [], // убирает все элементы управления
+      behaviors: ["drag"], // позволяет только перетаскивать карту
     });
-  });
-}
 
-//YandexMap
-ymaps.ready(init);
-function init() {
-  var myMap = new ymaps.Map("map", {
-    center: [59.961691, 30.308902], // координаты центра карты
-    zoom: 17,
-    controls: [], // убирает все элементы управления
-    behaviors: ["drag"], // позволяет только перетаскивать карту
-  });
+    var myPlacemark = new ymaps.Placemark(
+      [59.961691, 30.308902],
+      {},
+      {
+        // координаты маркера
+        iconLayout: "default#image",
+        iconImageHref: "../images/footer-map-placemarker.svg", // путь к вашему пользовательскому изображению
+        iconImageSize: [52, 75], // размеры вашего изображения
+        iconImageOffset: [-26, -75], // смещение изображения
+      }
+    );
 
-  var myPlacemark = new ymaps.Placemark(
-    [59.961691, 30.308902],
-    {},
-    {
-      // координаты маркера
-      iconLayout: "default#image",
-      iconImageHref: "../images/footer-map-placemarker.svg", // путь к вашему пользовательскому изображению
-      iconImageSize: [52, 75], // размеры вашего изображения
-      iconImageOffset: [-26, -75], // смещение изображения
-    }
-  );
+    myMap.geoObjects.add(myPlacemark);
 
-  myMap.geoObjects.add(myPlacemark);
-
-  //Модальное окно
-  let modal = document.querySelector(".modal-contact");
-  let btns = document.querySelectorAll(".form-button");
-  let span = document.querySelector(".modal-contact__close-btn");
-  let header = document.querySelector(".header")
-  btns.forEach((btn) => {
-    btn.addEventListener("click", function (event) {
-      event.preventDefault();
-      modal.style.display = "block";
-      header.style.display = "none";
+    //Модальное окно
+    let modal = document.querySelector(".modal-contact");
+    let btns = document.querySelectorAll(".form-button");
+    let span = document.querySelector(".modal-contact__close-btn");
+    let header = document.querySelector(".header");
+    btns.forEach((btn) => {
+      btn.addEventListener("click", function (event) {
+        event.preventDefault();
+        modal.style.display = "block";
+        header.style.display = "none";
+      });
     });
-  });
-  span.onclick = function () {
-    modal.style.display = "none";
-    header.style.display = "block";
-  };
-  window.onclick = function (event) {
-    if (event.target == modal) {
+    span.onclick = function () {
       modal.style.display = "none";
-    }
-  };
+      header.style.display = "block";
+    };
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
 
+  //Переопределяем якорные ссылки обрабатывая их кастомных скроллером
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
 
-}
+      let targetElement = document.querySelector(this.getAttribute("href"));
+      let targetPosition =
+        targetElement.getBoundingClientRect().top +
+        scroller.scroll.instance.scroll.y - 
+        headerHeightFixed;
 
+      scroller.scrollTo(targetPosition, 0, 0);
+    });
+  });
+
+});
 
 

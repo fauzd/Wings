@@ -27,9 +27,7 @@
     "sass": "^1.63.6"
   },
   "dependencies": {
-    "@glidejs/glide": "^3.6.0",
     "bootstrap": "^5.3.0",
-    "dotdotdot-js": "^4.1.0",
     "jquery": "^3.7.0",
     "normalize.css": "^8.0.1"
   }
