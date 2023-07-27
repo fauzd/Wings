@@ -85,7 +85,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+
   //Видео О школе
+  //Получаем хэдер страницы
+  let hdr = document.querySelector(".header")
+
   // Получаем модальное окно
   let modal = document.getElementById("heroModal");
 
@@ -99,30 +103,34 @@ document.addEventListener("DOMContentLoaded", function () {
   btn.onclick = function (e) {
     e.preventDefault();
     let iframe = document.createElement("iframe");
-    iframe.width = "258";
-    iframe.height = "382";
+    iframe.width = window.innerWidth > 936 ? "900" : "258";
+    iframe.height = window.innerWidth > 936 ? "600" : "382";
     iframe.src = "https://www.youtube.com/embed/aMcq3T0188c";
     iframe.frameborder = "0";
     iframe.allow =
       "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
     iframe.allowFullscreen = true;
     document.getElementById("videoContainer").appendChild(iframe);
-    modal.style.display = "block";
+    modal.classList.add("hero__video-modal--open");
+    hdr.style.transform =
+      window.innerWidth > 936 ? "translate(0, -200px)" : "translate(0, 0)";
+
   };
 
   // Когда пользователь нажимает на <span> (x), закрываем модальное окно
   span.onclick = function () {
-    modal.style.display = "none";
+    modal.classList.remove("hero__video-modal--open");
     document.getElementById("videoContainer").innerHTML = ""; // Удаляем iframe, чтобы остановить воспроизведение видео
+    hdr.style.transform = "translateY(0)";
   };
 
   // Когда пользователь кликает в любом месте за пределами модального окна, закрываем его
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-      document.getElementById("videoContainer").innerHTML = ""; // Удаляем iframe, чтобы остановить воспроизведение видео
-    }
+  modal.onclick = function (event) {
+    hdr.style.transform = "translateY(0)";
+    modal.classList.remove("hero__video-modal--open");
+    document.getElementById("videoContainer").innerHTML = ""; // Удаляем iframe, чтобы остановить воспроизведение видео
   };
+
 
   //swiper about
   let swiper1;
@@ -905,7 +913,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     myMap.geoObjects.add(myPlacemark);
 
-    //Модальное окно
+    //Модальное окно сбора контактных данных
     let modal = document.querySelector(".modal-contact");
     let btns = document.querySelectorAll(".form-button");
     let span = document.querySelector(".modal-contact__close-btn");

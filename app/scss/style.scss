@@ -7,6 +7,11 @@
 @import "../css/slick-theme.scss";
 @import "../css/swiper-bundle.min.scss";
 
+:root {
+  --swiper-navigation-sides-offset: 0;
+}
+
+
 $theme-colors: (
   "primary": #84a2ff,
 );
@@ -254,7 +259,7 @@ section {
   @media (min-width: 720px) {
     background-size: 100%;
   }
-  
+
   &__content {
     margin-top: 50vh;
     padding-bottom: 5vh;
@@ -266,28 +271,28 @@ section {
     }
     z-index: 3;
     &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: -10%;
-     @media (min-width: 360px) {
-      bottom: -13%;
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -10%;
+      @media (min-width: 360px) {
+        bottom: -13%;
+      }
+      @media (min-width: 500px) {
+        bottom: -22%;
+      }
+      @media (min-width: 700px) {
+        bottom: -26%;
+      }
+      left: 0;
+      right: 0;
+      height: 100%;
+      background-image: url(../images/hero-wave-header-small.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: -2;
     }
-    @media (min-width: 500px) {
-      bottom: -22%;
-    }
-    @media (min-width: 700px) {
-      bottom: -26%;
-    }
-    left: 0;
-    right: 0;
-    height: 100%;
-    background-image: url(../images/hero-wave-header-small.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: -2;
-  }
   }
   &__button {
     color: #fff;
@@ -320,35 +325,46 @@ section {
   &__text {
     max-width: 70vw;
     margin-top: 3vh;
-     @media (min-width: 390px) {
+    @media (min-width: 390px) {
       margin-top: 2vh;
     }
   }
   &__title {
     max-width: 60%;
-   
-    
   }
   &__video-modal {
     display: none;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: auto;
     background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 12;
+    &--open {
+      display: flex;
+    }
   }
   &__modal-content {
     background-color: rgba($color: #fefefe, $alpha: 0);
-    margin: 15% auto; /* 15% сверху и по центру */
-    padding: 20px;
     border: none;
+    margin: auto;
     width: 80%; /* Ширина модального содержимого */
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
   }
   &__modal-close {
+    align-self: flex-end;
+    right: 0;
+    top: 0;
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -540,20 +556,20 @@ fancybox-container img:active {
 }
 .free-mode-tab-header {
   background: #bdcdff;
-    &:not(:last-child) {
-      margin-right: 0.625rem;
-    }
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
-    width: auto;
-    cursor: pointer;
-    border-radius: 3rem;
-    font-size: 1rem;
-    font-weight: 700;
-    &--active,
-    &:hover {
-      background-color: #ffa880;
-    }
+  &:not(:last-child) {
+    margin-right: 0.625rem;
+  }
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  width: auto;
+  cursor: pointer;
+  border-radius: 3rem;
+  font-size: 1rem;
+  font-weight: 700;
+  &--active,
+  &:hover {
+    background-color: #ffa880;
+  }
 }
 
 .program {
@@ -576,7 +592,6 @@ fancybox-container img:active {
     }
   }
   &__tab-header {
-    
   }
   &__content-title {
     font-size: 1.5rem;
