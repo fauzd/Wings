@@ -1,11 +1,11 @@
 @import "../../node_modules/normalize.css/normalize";
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
-@import "../css/fancybox.css";
-@import "../css/locomotive-scroll.min.css";
-@import "../css/slick.css";
-@import "../css/slick-theme.css";
-@import "../css/swiper-bundle.min.css";
+@import "../css/fancybox.scss";
+@import "../css/locomotive-scroll.min.scss";
+@import "../css/slick.scss";
+@import "../css/slick-theme.scss";
+@import "../css/swiper-bundle.min.scss";
 
 $theme-colors: (
   "primary": #84a2ff,
