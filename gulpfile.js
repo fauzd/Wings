@@ -56,14 +56,13 @@ function scripts() {
     "app/js/swiper-bundle.min.js",
     "app/js/fancybox.umd.js",
     "app/js/slick.min.js",
-    // "app/js/animation.gsap.min.js",
     "app/js/locomotive-scroll.js",
     "app/js/ScrollTrigger.min.js",
     "app/js/gsap.min.js",
     "app/js/main.js",
   ])
     .pipe(concat("main.min.js"))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(dest("app/js"))
     .pipe(browserSync.stream());
 }
