@@ -53,13 +53,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const nav = document.querySelector(".header__nav");
 
   burger.addEventListener("click", function () {
-    nav.style.display = "flex";
+    nav.style.visibility = "visible";
+    nav.style.opacity = "1";
     burger.style.display = "none";
     close.style.display = "block";
   });
 
   close.addEventListener("click", function () {
-    nav.style.display = "none";
+    nav.style.opacity = "0";
+    setTimeout(() => {
+      nav.style.visibility = "hidden";
+    }, 300);
     close.style.display = "none";
     burger.style.display = "block";
   });
@@ -74,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Добавляем обработчик события click
       navLinks[i].addEventListener("click", function () {
         // Закрываем меню
-        document.querySelector(".header__nav").style.display = "none";
+        document.querySelector(".header__nav").style.visibility = "hidden";
         // Меняем иконку бургера на крестик
         document.querySelector(".header__burger").style.display = "block";
         document.querySelector(".header__close").style.display = "none";
@@ -504,23 +508,25 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // timetable
-
-  let timetableOuterSwiper = new Swiper(".timetable__swiper-container", {
-    slidesPerView: "auto",
-    spaceBetween: 10,
-    freeMode: true,
-    watchSlidesVisibility: true,
-    watchSlidesProgress: true,
-    sticky: true,
-    // loop: true,
-  });
+  // Скользящий фримод слайдер только в мобильной версии
+  if (window.innerWidth < 936) {
+    let timetableOuterSwiper = new Swiper(".timetable__swiper-container", {
+      slidesPerView: "auto",
+      spaceBetween: 10,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+      sticky: true,
+      // loop: true,
+    });
+  }
 
   let timetableTabPanes = document.querySelectorAll(".timetable__tab-pane");
   let timetableTabHeaders = document.querySelectorAll(".timetable__tab-header");
 
   timetableTabHeaders.forEach((header, index) => {
     header.addEventListener("click", () => {
-      timetableOuterSwiper.slideTo(index);
+      // timetableOuterSwiper.slideTo(index);
       timetableTabPanes.forEach((pane, paneIndex) => {
         pane.style.display = paneIndex === index ? "block" : "none";
         timetableTabHeaders[paneIndex].classList.toggle(
@@ -677,9 +683,6 @@ document.addEventListener("DOMContentLoaded", function () {
             targetElement.getBoundingClientRect().top +
             currentScrollPosition -
             headerHeightFixed;
-
-          console.log("currentScrollPosition is " + currentScrollPosition);
-          console.log("targetPosition is " + targetPosition);
 
           scroller.scrollTo(targetPosition, { duration: 800 });
         } else {
@@ -926,19 +929,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   //Переопределяем якорные ссылки обрабатывая их кастомных скроллером
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
+  if (window.innerWidth > 936) {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
 
-      let targetElement = document.querySelector(this.getAttribute("href"));
-      let targetPosition =
-        targetElement.getBoundingClientRect().top +
-        scroller.scroll.instance.scroll.y - 
-        headerHeightFixed;
+        let targetElement = document.querySelector(this.getAttribute("href"));
+        let targetPosition =
+          targetElement.getBoundingClientRect().top +
+          scroller.scroll.instance.scroll.y - 
+          headerHeightFixed;
 
-      scroller.scrollTo(targetPosition, 0, 0);
+        scroller.scrollTo(targetPosition, 0, 0);
+      });
     });
-  });
+  }
 
 });
 

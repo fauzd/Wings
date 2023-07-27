@@ -140,6 +140,8 @@
       height: auto;
       width: auto;
       display: flex;
+      visibility: visible;
+      opacity: 1;
       color: inherit;
       align-items: center;
       justify-content: space-around;
@@ -184,9 +186,6 @@
     background-position: center top;
     display: flex;
     justify-content: center;
-    &::before {
-      content: none;
-    }
     &__container {
       overflow-y: visible;
     }
@@ -194,6 +193,9 @@
       position: relative;
       margin-top: 50px;
       max-width: 648px;
+      &::before {
+        content: none;
+      }
     }
     &__title {
       font-size: 88px;
@@ -223,6 +225,7 @@
   .about {
     overflow: visible;
     z-index: 2;
+  margin-top: 0;  
     &__swiper {
       display: none;
     }
@@ -249,6 +252,7 @@
       top: 20%;
     }
     &__description {
+      margin: 0;
       max-width: 50%;
     }
     &__slide-content {
