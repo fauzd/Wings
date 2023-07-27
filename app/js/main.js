@@ -456,10 +456,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Массив с URL-адресами изображений
   let images = [
-    "../images/program-img-lg-1.jpg",
-    "../images/program-img-lg-1.jpg",
-    "../images/program-img-lg-1.jpg",
-    "../images/program-img-lg-1.jpg",
+    "images/program-img-lg-1.jpg",
+    "images/program-img-lg-1.jpg",
+    "images/program-img-lg-1.jpg",
+    "images/program-img-lg-1.jpg",
   ];
   // Загрузка содержимого первой вкладки при старте страницы
   tabPanes[0].style.display = "block";
@@ -894,7 +894,7 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         // координаты маркера
         iconLayout: "default#image",
-        iconImageHref: "../images/footer-map-placemarker.svg", // путь к вашему пользовательскому изображению
+        iconImageHref: "images/footer-map-placemarker.svg", // путь к вашему пользовательскому изображению
         iconImageSize: [52, 75], // размеры вашего изображения
         iconImageOffset: [-26, -75], // смещение изображения
       }
