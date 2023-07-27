@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
           let styleValue = targetNode.getAttribute("style");
           if (
             styleValue ===
-            "transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); opacity: 1; pointer-events: all;"
+            "transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); opacity: 1; pointer-events: all; overflow-y: scroll;"
           ) {
             headerContent.style.background = "rgba(255, 255, 255, 0.1)";
             headerContent.style.color = "white";

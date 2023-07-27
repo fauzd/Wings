@@ -117,5 +117,5 @@ exports.building = building
 exports.scripts = scripts
 exports.watching = watching
 
-exports.build = series(cleanDocs, building);
+exports.build = series(styles, scripts, pages, cleanDocs, building);
 exports.default = parallel(styles, scripts, pages, watching)
