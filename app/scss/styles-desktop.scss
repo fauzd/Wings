@@ -94,21 +94,21 @@
         &:nth-child(1) {
           &::before {
             content: "";
-            background-image: url(images/header-icon--location.svg);
+            background-image: url(../images/header-icon--location.svg);
             background-size: contain;
           }
         }
         &:nth-child(2) {
           &::before {
             content: "";
-            background-image: url(images/header-icon--arrow.svg);
+            background-image: url(../images/header-icon--arrow.svg);
             background-size: contain;
           }
         }
         &:nth-child(3) {
           &::before {
             content: "";
-            background-image: url(images/header-icon--phone.svg);
+            background-image: url(../images/header-icon--phone.svg);
             background-size: contain;
           }
         }
@@ -179,7 +179,7 @@
   .hero {
     height: 923px;
     max-width: 1920px;
-    background-image: url(images/header-bg-lg.png);
+    background-image: url(../images/header-bg-lg.png);
     background-size: cover;
     background-position: center top;
     display: flex;
@@ -515,7 +515,7 @@
       &::after {
         content: "";
         position: absolute;
-        background-image: url(images/preschool-img.webp);
+        background-image: url(../images/preschool-img.webp);
         background-size: cover;
         background-repeat: no-repeat;
         border-radius: 35px;
@@ -596,7 +596,7 @@
     background-color: transparent;
     height: 679px;
     max-width: 1920px;
-    background-image: url(images/vision-bg-lg.svg);
+    background-image: url(../images/vision-bg-lg.svg);
     background-size: cover;
     background-position: center top;
     &__title {
@@ -648,7 +648,7 @@
           position: absolute;
           left: -80px;
           top: 10px;
-          background-image: url(images/vision-carousel-bullet.svg);
+          background-image: url(../images/vision-carousel-bullet.svg);
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center;
@@ -771,7 +771,7 @@
     height: 654px;
     padding: 0;
     background-color: white;
-    background-image: url(images/licenses-bg-lg.svg);
+    background-image: url(../images/licenses-bg-lg.svg);
     background-position: center bottom;
     background-repeat: no-repeat;
     &__container {
@@ -903,7 +903,7 @@
       height: 730px;
       padding-top: 55px;
       background-color: #fff;
-      background-image: url(images/howto-bottom-bg-lg.svg);
+      background-image: url(../images/howto-bottom-bg-lg.svg);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: cover;
@@ -915,7 +915,7 @@
         grid-row: 1;
         &::after {
           content: "";
-          background-image: url(images/howto-bottom-lg-arrow-left.svg);
+          background-image: url(../images/howto-bottom-lg-arrow-left.svg);
           position: absolute;
           background-repeat: no-repeat;
           background-size: cover;
@@ -932,7 +932,7 @@
         position: relative;
         &::after {
           content: "";
-          background-image: url(images/howto-bottom-lg-arrow-right.svg);
+          background-image: url(../images/howto-bottom-lg-arrow-right.svg);
           background-repeat: no-repeat;
           background-size: cover;
           position: absolute;
@@ -1140,7 +1140,7 @@
       top: 22px;
       right: 115px;
       background: none;
-      background-image: url(images/footer-slider-arrow-next.svg);
+      background-image: url(../images/footer-slider-arrow-next.svg);
       width: 113px;
       height: 31px;
       background-repeat: no-repeat;
