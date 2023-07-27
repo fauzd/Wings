@@ -100,7 +100,7 @@ function building() {
   return src([
     'app/css/style.min.css',
     'app/images/*.*',
-    '!app/images/*.svg',
+    // '!app/images/*.svg',
     '!app/images/stack',
     'app/fonts/*.*',
     'app/js/main.min.js',
