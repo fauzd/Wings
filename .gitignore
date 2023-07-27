@@ -1,3 +1,6 @@
 node_modules
 backup
+.firebase
 .firebase/hosting.ZG9jcw.cache
+firebase.json
+.firebaserc

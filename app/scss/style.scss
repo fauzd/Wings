@@ -115,11 +115,11 @@ section {
   overflow: hidden;
   z-index: 2;
   &--prev {
-    background-image: url(../images/arrow-swiper-left.svg);
+    background-image: url(images/arrow-swiper-left.svg);
     left: 5%;
   }
   &--next {
-    background-image: url(../images/arrow-swiper-right.svg);
+    background-image: url(images/arrow-swiper-right.svg);
     right: 5%;
   }
 }
@@ -243,7 +243,7 @@ section {
   padding: 0;
   position: relative;
   height: 88vh;
-  background-image: url(../images/hero-bg.webp);
+  background-image: url(images/hero-bg.webp);
   background-size: 170%;
   background-repeat: no-repeat;
   background-position: 60% 0;
@@ -261,7 +261,7 @@ section {
     height: 45vh;
     left: 0;
     right: 0;
-    background-image: url(../images/wave-header-big.svg);
+    background-image: url(images/wave-header-big.svg);
     background-size: 160%;
     background-repeat: no-repeat;
     background-position: 50% 0;
@@ -290,7 +290,7 @@ section {
     &::before {
       content: "";
       display: inline-block;
-      background-image: url(../images/play-video-small.svg);
+      background-image: url(images/play-video-small.svg);
       background-size: cover;
       background-repeat: no-repeat;
       margin-right: 0.5rem;
@@ -367,7 +367,7 @@ section {
   &::before {
     content: "";
     display: block;
-    background-image: url(../images/about-decor-1.svg);
+    background-image: url(images/about-decor-1.svg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -387,7 +387,7 @@ section {
     content: "";
     position: absolute;
     display: block;
-    background-image: url(../images/about-decor-2.svg);
+    background-image: url(images/about-decor-2.svg);
     background-repeat: no-repeat;
     background-size: contain;
     right: 1rem;
@@ -623,7 +623,7 @@ fancybox-container img:active {
     align-items: center;
   }
   &__time {
-    background-image: url(../images/timetable-1000-1045.svg);
+    background-image: url(images/timetable-1000-1045.svg);
     width: 28px;
     height: 29px;
     background-size: contain;
@@ -749,7 +749,7 @@ fancybox-container img:active {
   }
   &__principal-img-wrapper::before {
     content: "";
-    background-image: url(../images/principal-img-decor-1.svg);
+    background-image: url(images/principal-img-decor-1.svg);
     display: inline-block;
     height: 10rem;
     width: 10rem;
@@ -762,7 +762,7 @@ fancybox-container img:active {
   }
   &__principal-img-wrapper::after {
     content: "";
-    background-image: url(../images/principal-img-decor-2.svg);
+    background-image: url(images/principal-img-decor-2.svg);
     display: inline-block;
     height: 2.75rem;
     width: 2.75rem;
@@ -784,7 +784,7 @@ fancybox-container img:active {
   }
   &__subtitle::before {
     content: "";
-    background-image: url(../images/principal-img-decor-3.svg);
+    background-image: url(images/principal-img-decor-3.svg);
     display: inline-block;
     height: 83px;
     width: 101px;
@@ -853,22 +853,22 @@ fancybox-container img:active {
       transform: translateX(-50%);
     }
     &[data-bg="1"]::before {
-      background-image: url(../images/people-persons-bg-1.svg);
+      background-image: url(images/people-persons-bg-1.svg);
     }
     &[data-bg="2"]::before {
-      background-image: url(../images/people-persons-bg-2.svg);
+      background-image: url(images/people-persons-bg-2.svg);
     }
     &[data-bg="3"]::before {
-      background-image: url(../images/people-persons-bg-3.svg);
+      background-image: url(images/people-persons-bg-3.svg);
     }
     &[data-bg="4"]::before {
-      background-image: url(../images/people-persons-bg-4.svg);
+      background-image: url(images/people-persons-bg-4.svg);
     }
     &[data-bg="5"]::before {
-      background-image: url(../images/people-persons-bg-5.svg);
+      background-image: url(images/people-persons-bg-5.svg);
     }
     &[data-bg="6"]::before {
-      background-image: url(../images/people-persons-bg-6.svg);
+      background-image: url(images/people-persons-bg-6.svg);
     }
   }
   &__text-wrapper {
@@ -1046,13 +1046,13 @@ fancybox-container img:active {
   &__star {
     width: 19px;
     height: 18px;
-    background-image: url(../images/testimonials-star-yellow.svg);
+    background-image: url(images/testimonials-star-yellow.svg);
     background-size: cover;
     &:not(:last-child) {
       margin-right: 3px;
     }
     &--grey {
-      background-image: url(../images/testimonials-star-grey.svg);
+      background-image: url(images/testimonials-star-grey.svg);
     }
   }
 }
@@ -1424,10 +1424,10 @@ fancybox-container img:active {
   background-repeat: no-repeat;
 }
 .swiper-button-prev {
-  background-image: url(../images/arrow-swiper-left.svg);
+  background-image: url(images/arrow-swiper-left.svg);
 }
 .swiper-button-next {
-  background-image: url(../images/arrow-swiper-right.svg);
+  background-image: url(images/arrow-swiper-right.svg);
 }
 
 #custom-cursor {
@@ -1483,7 +1483,7 @@ fancybox-container img:active {
   height: 94px;
   transform: translate(-50%, -50%);
   transition: transform 0.5s;
-  background: url(../images/horizontal-scoll--cursor.svg) no-repeat center
+  background: url(images/horizontal-scoll--cursor.svg) no-repeat center
     center;
   background-size: contain;
   position: absolute;
