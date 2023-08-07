@@ -35,14 +35,12 @@
   }
   section {
     padding: 3.5rem 0;
+    overflow: hidden;
   }
 
   .container {
     width: 1220px;
     padding: 0 1rem;
-  }
-  .scrollable-area {
-    height: 300vh;
   }
   .header {
     background-color: transparent;
@@ -62,6 +60,7 @@
       display: none;
     }
     &__contacts {
+      opacity: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -77,6 +76,7 @@
         display: flex;
       }
       &-item {
+        opacity: 0;
         color: #fff;
         font-size: 16px;
         position: relative;
@@ -115,6 +115,7 @@
       }
     }
     &__content {
+      opacity: 0;
       display: flex;
       align-items: center;
       flex-shrink: 0;
@@ -158,6 +159,7 @@
           color: inherit;
           &:not(:last-child) {
             margin-right: 56px;
+            margin-bottom: 0;
           }
           a {
             white-space: nowrap;
@@ -179,6 +181,7 @@
     }
   }
   .hero {
+    --bg-position: center top; 
     height: 923px;
     max-width: 1920px;
     background-image: url(../images/header-bg-lg.png);
@@ -186,8 +189,14 @@
     background-position: center top;
     display: flex;
     justify-content: center;
+    &__bg--addon {
+      display: block;
+      position: absolute;
+      bottom: -278px;
+      z-index: 2;
+    }
     &__container {
-      overflow-y: visible;
+      overflow: visible;
     }
     &__content {
       position: relative;
@@ -198,15 +207,18 @@
       }
     }
     &__title {
+      opacity: 0;
       font-size: 88px;
       line-height: 88px;
     }
     &__actions {
+      opacity: 0;
       display: flex;
       flex-direction: row-reverse;
       margin-top: 2rem;
     }
     &__text {
+      opacity: 0;
       font-size: 1.17rem;
     }
     &__video {
@@ -237,7 +249,9 @@
     &__container {
       max-width: 1220px;
     }
+    --decor1-size: 100%;
     &::before {
+      background-size: var(--decor1-size);
       position: absolute;
       width: 12vw;
       height: 12vw;
@@ -246,6 +260,7 @@
       z-index: 2;
     }
     &::after {
+      background-size: var(--decor1-size);
       width: 17vw;
       height: 17vw;
       right: 5%;
@@ -387,7 +402,7 @@
   }
 
   .program {
-    background-color: #fff;
+    background-color: transparent;
     &__container {
       width: 100%;
       max-width: 1220px;
@@ -441,7 +456,7 @@
         &--active,
         &:hover,
         &:active {
-          background-color: #ffa880;
+          background-color: #bdcdff;
         }
       }
       &-3 {
@@ -473,7 +488,7 @@
         &--active,
         &:hover,
         &:active {
-          background-color: #bdcdff;
+          background-color: #FFA880;
         }
       }
       &:not(:last-child) {
@@ -495,18 +510,18 @@
     &__content-list {
       margin: 0;
       padding: 82px 0 168px 43px;
-      &-1 {
-        background: #84a2ff;
-      }
-      &-2 {
-        background: #ffa880;
-      }
-      &-3 {
-        background: #e9d3be;
-      }
-      &-4 {
-        background: #bdcdff;
-      }
+      // &-1 {
+      //   background: #84a2ff;
+      // }
+      // &-2 {
+      //   background: #bdcdff;
+      // }
+      // &-3 {
+      //   background: #e9d3be;
+      // }
+      // &-4 {
+      //   background: #ffa880;
+      // }
     }
     &__content-title {
       margin: 0;
@@ -516,6 +531,7 @@
       padding: 0;
       position: relative;
       transform: translateY(-5px);
+      background: #84a2ff;
       &::after {
         content: "";
         position: absolute;
@@ -558,12 +574,15 @@
       align-items: center;
       justify-content: center;
       border-radius: 40px;
+      &:hover,
+      &--active {
+        color: #000;
+      }
       &:hover {
         background-color: #84a2ff;
       }
       &--active {
         background-color: #ffa880;
-        color: #000;
       }
     }
     &-daily {
@@ -582,6 +601,10 @@
     }
   }
   .features {
+    overflow: hidden;
+    &__container {
+      overflow: visible;
+    }
     &__title {
       margin-bottom: 111px;
     }
@@ -598,11 +621,19 @@
   .vision {
     padding: 0;
     background-color: transparent;
-    height: 679px;
+    // height: 679px;
+    height: 100vh;
     max-width: 1920px;
-    background-image: url(../images/vision-bg-lg.svg);
+    // background-image: url(../images/vision-bg-lg.svg);
+    background-image: none;
     background-size: cover;
     background-position: center top;
+    display: flex;
+    align-items: center;
+    &__container {
+      display: flex;
+      align-items: center;
+    }
     &__title {
       display: none;
       margin-top: 167px;
@@ -618,7 +649,8 @@
     }
     &__carousel-wrapper {
       display: flex;
-      height: 100%;
+      align-items: center;
+      height: auto;
     }
     &__carousel-text,
     &__carousel-centerer {
@@ -626,14 +658,31 @@
       height: 100%;
     }
     &__carousel-title {
-      padding-top: 180px;
-      margin-bottom: 42px;
+      padding: 0;
+      margin: 0;
     }
     &__carousel-centerer {
       display: flex;
       justify-content: center;
       overflow: visible;
-      padding-top: 100px;
+      position: relative;
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 20%;
+        z-index: 1;
+      }
+      &::before {
+        top: 0;
+        background: var(--gradientBefore);
+      }
+      &::after {
+        bottom: 0;
+        background: var(--gradientAfter);
+      }
     }
     &__carousel-item {
       margin-left: 80px;
@@ -663,8 +712,10 @@
       }
     }
   }
-  .slick-track {
+  .slick {
+    &-track {
     transition-timing-function: linear !important;
+  }
   }
   .people {
     padding-bottom: 0;
@@ -772,19 +823,22 @@
     }
   }
   .licenses {
-    height: 654px;
+    height: 100vh;
     padding: 0;
-    background-color: white;
-    background-image: url(../images/licenses-bg-lg.svg);
+    background-color: transparent;
+    // background-image: url(../images/licenses-bg-lg.svg);
     background-position: center bottom;
     background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
     &__container {
-      height: 100%;
+      height: auto;
       position: relative;
+      overflow: visible;
     }
     &__title {
-      padding-top: 100px;
-      margin-bottom: 37px;
+      // padding-top: 100px;
+      // margin-bottom: 37px;
     }
     &__text {
       width: 50%;
@@ -801,11 +855,11 @@
       height: 501px;
     }
     &__preview-1 {
-      top: 7%;
+      top: -30%;
       right: 0;
     }
     &__preview-2 {
-      top: 20%;
+      top: 15%;
       right: 17%;
     }
     &__button {
@@ -906,8 +960,8 @@
     &__bottom {
       height: 730px;
       padding-top: 55px;
-      background-color: #fff;
-      background-image: url(../images/howto-bottom-bg-lg.svg);
+      background-color: transparent;
+      // background-image: url(../images/howto-bottom-bg-lg.svg);
       background-position: center top;
       background-repeat: no-repeat;
       background-size: cover;
@@ -965,10 +1019,14 @@
 
   .form {
     padding: 30px 0 40px 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
     &__container {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
+      overflow: visible;
     }
     &__title {
       margin-bottom: 66px;
@@ -1004,8 +1062,12 @@
     }
   }
   .questions {
-    background-color: #fbdcad;
+    background-color: transparent;
+    min-height: 85vh;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     &__container {
       display: flex;
       overflow: visible;
@@ -1047,6 +1109,10 @@
       }
     }
     &__more {
+      height: 50vh;
+      width: 100%;
+      background-color: transparent;
+      padding: 100px 0;
       &-title {
         margin-top: 60px;
       }
@@ -1056,10 +1122,12 @@
     }
   }
   .footer {
+    background-color: transparent;
     &-section {
       padding: 0;
     }
     &__wrapper {
+      height: 65vh;
       display: flex;
       max-width: 1220px;
       margin: 0 auto;
@@ -1151,7 +1219,7 @@
       background-position: center;
     }
     &__map-container {
-      height: 545px;
+      height: 35vh;
     }
     &__map {
       width: 100%;

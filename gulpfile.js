@@ -1,4 +1,4 @@
-const {src, dest, watch, parallel, series} = require('gulp')
+const {src, dest, watch, parallel, series, gulp} = require('gulp')
 
 const scss = require('gulp-sass')(require('sass'))
 const concat = require('gulp-concat');
@@ -59,10 +59,11 @@ function scripts() {
     "app/js/locomotive-scroll.js",
     "app/js/ScrollTrigger.min.js",
     "app/js/gsap.min.js",
+    "app/js/animations.js",
     "app/js/main.js",
   ])
     .pipe(concat("main.min.js"))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(dest("app/js"))
     .pipe(browserSync.stream());
 }
@@ -82,11 +83,13 @@ function watching() {
   browserSync.init({
         server: {
             baseDir: "app/"
-        }
+        },
+        browser: "firefox"
     });
   watch(["app/scss/style.scss", "app/scss/styles-desktop.scss"], styles);
   watch(['app/images/src'], images)
   watch(['app/js/main.js'], scripts)
+  watch(["app/js/animations.js"], scripts)
   watch(['app/components/*', 'app/pages/*'], pages)
   watch(['app/*.html']).on('change', browserSync.reload)
 }

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   //Делаем скроллер и глобально видимым
   let scroller;
-  //При скролле к секции наверн будет выплывать хэдер, 
+  //При скролле к секции наверн будет выплывать хэдер,
   //поэтому оставляем ему место, тут объявляем его и его высоту,
   //сейчас это фикс, поэтому так
   let headerHeightFixed = 150;
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //Видео О школе
   //Получаем хэдер страницы
-  let hdr = document.querySelector(".header")
+  let hdr = document.querySelector(".header");
 
   // Получаем модальное окно
   let modal = document.getElementById("heroModal");
@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.classList.add("hero__video-modal--open");
     hdr.style.transform =
       window.innerWidth > 936 ? "translate(0, -200px)" : "translate(0, 0)";
-
   };
 
   // Когда пользователь нажимает на <span> (x), закрываем модальное окно
@@ -130,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.classList.remove("hero__video-modal--open");
     document.getElementById("videoContainer").innerHTML = ""; // Удаляем iframe, чтобы остановить воспроизведение видео
   };
-
 
   //swiper about
   let swiper1;
@@ -170,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //собсно скролл
-    gsap.registerPlugin(ScrollTrigger);
+    // gsap.registerPlugin(ScrollTrigger);
 
     const pageContainer = document.querySelector(".main");
     pageContainer.setAttribute("data-scroll-container", "");
@@ -280,30 +278,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    //Меняем цвет фона секции
-    const scrollColorElems = document.querySelectorAll("[data-bgcolor]");
-    scrollColorElems.forEach((colorSection, i) => {
-      const prevBg = i === 0 ? "" : scrollColorElems[i - 1].dataset.bgcolor;
-      const prevText = i === 0 ? "" : scrollColorElems[i - 1].dataset.textcolor;
-
-      ScrollTrigger.create({
-        trigger: colorSection,
-        scroller: "[data-scroll-container]",
-        start: "top 50%",
-        onEnter: () =>
-          gsap.to("body", {
-            backgroundColor: colorSection.dataset.bgcolor,
-            color: colorSection.dataset.textcolor,
-            overwrite: "auto",
-          }),
-        onLeaveBack: () =>
-          gsap.to("body", {
-            backgroundColor: prevBg,
-            color: prevText,
-            overwrite: "auto",
-          }),
-      });
-    });
+    
+    // Инициализация триггеров цветов фона секций при загрузке страницы
+    initColorTriggers();
 
     //Скрываем заголовок
     let headerContent = document.querySelector(".header__content");
@@ -340,6 +317,17 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
 
+    createAnimationHero();
+    horizontalSectionSlidesAnimation();
+    createAnimationFeatures();
+    createAnimationVision();
+    createAnimationPeople();
+    createAnimationLicenses();
+    createAnimationTestimonials();
+    createAnimationHowTo();
+    createAnimationForm();
+    createAnimationQuestions();
+
     ScrollTrigger.refresh();
     //Мониторим параметры скролла в корневом элементе и при нулях
     //возвращаем стили хэдера
@@ -363,8 +351,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
           let styleValue = targetNode.getAttribute("style");
           if (
-            styleValue ===
-            "transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); opacity: 1; pointer-events: all; overflow-y: scroll;"
+            styleValue.includes(
+              "transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);"
+            )
           ) {
             headerContent.style.background = "rgba(255, 255, 255, 0.1)";
             headerContent.style.color = "white";
@@ -503,6 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tabs[i].classList.add(
               "program__tab-header-" + (i + 1) + "--active"
             ); // Добавление класса активной вкладке
+            createAnimationProgramBg(i); //Изменение цвета фона
           } else {
             tabPanes[i].style.display = "none";
             tabs[i].classList.remove("program__tab-header--active");
@@ -527,10 +517,16 @@ document.addEventListener("DOMContentLoaded", function () {
       sticky: true,
       // loop: true,
     });
+  } else {
+    
   }
 
-  let timetableTabPanes = document.querySelectorAll(".timetable__tab-pane");
-  let timetableTabHeaders = document.querySelectorAll(".timetable__tab-header");
+  const timetableSection = document.querySelector(".timetable");
+  const timetableTabPanes = document.querySelectorAll(".timetable__tab-pane");
+  const timetableTabHeaders = document.querySelectorAll(
+    ".timetable__tab-header"
+  );
+  const colors = ["#F6F7FA", "#FFEEDE", "#DAE3FD"]; // Массив с цветами
 
   timetableTabHeaders.forEach((header, index) => {
     header.addEventListener("click", () => {
@@ -542,6 +538,23 @@ document.addEventListener("DOMContentLoaded", function () {
           paneIndex === index
         );
       });
+
+      // Установка атрибута data-bgcolor для секции "timetable"
+      if (window.innerWidth > 936) {
+        timetableSection.setAttribute(
+          "data-bgcolor",
+          colors[index % colors.length]
+        );
+
+        // Анимация изменения цвета фона
+        gsap.to("body", {
+          backgroundColor: colors[index % colors.length], // Выбираем цвет из массива
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      }
+
+      
     });
   });
 
@@ -629,21 +642,39 @@ document.addEventListener("DOMContentLoaded", function () {
         item.textContent = buttons[index].textContent;
       }
 
-      // Добавляем обработчик события click на каждый элемент vision__carousel-item
-      item.addEventListener("click", () => {
-        // Находим элементы vision__carousel-description и vision__carousel-title
-        const description = document.querySelector(
-          ".vision__carousel-description"
-        );
-        const title = document.querySelector(".vision__carousel-title");
+      // Находим контейнер слайдов
+      const carousel = document.querySelector(".vision__carousel");
 
-        // Берем текст из соответствующего элемента vision__button и помещаем его в элементы vision__carousel-description и vision__carousel-title
-        if (buttons[index] && description && title) {
-          description.textContent =
-            buttons[index].nextElementSibling.textContent;
-          title.textContent = buttons[index].textContent;
+      // Добавляем обработчик события click на контейнер слайдов
+      carousel.addEventListener("click", (event) => {
+        const item = event.target;
+
+        if (
+          item.classList.contains("vision__carousel-item") ||
+          item.parentElement.classList.contains("vision__carousel-item")
+        ) {
+          const description = document.querySelector(
+            ".vision__carousel-description"
+          );
+          const title = document.querySelector(".vision__carousel-title");
+
+          // Берем текст из слайда
+          const itemText = item.textContent || item.parentElement.textContent;
+
+          // Ищем кнопку с таким же текстом
+          const button = Array.from(buttons).find(
+            (button) => button.textContent === itemText
+          );
+
+          if (button && description && title) {
+            const newDescription = button.nextElementSibling.textContent;
+            const newTitle = button.textContent;
+
+            animateVisionCarousel(description, title, newDescription, newTitle);
+          }
         }
       });
+
     });
   }
 
@@ -945,14 +976,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let targetElement = document.querySelector(this.getAttribute("href"));
         let targetPosition =
           targetElement.getBoundingClientRect().top +
-          scroller.scroll.instance.scroll.y - 
+          scroller.scroll.instance.scroll.y -
           headerHeightFixed;
 
         scroller.scrollTo(targetPosition, 0, 0);
       });
     });
   }
-
 });
 
 
