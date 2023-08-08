@@ -1253,6 +1253,7 @@ fancybox-container img:active {
   background-color: #e9d3be;
   padding-bottom: 0;
   overflow-x: hidden;
+  min-height: 100vh;
   &__container {
     overflow: visible;
   }
@@ -1306,10 +1307,8 @@ fancybox-container img:active {
   }
   &__decor {
     position: relative;
-    margin: 3rem 1.5rem -2rem 1.5rem;
     height: 30vh;
     overflow: visible;
-    margin: 0 -1rem;
     &-img {
       position: absolute;
       &--1 {
@@ -1329,11 +1328,12 @@ fancybox-container img:active {
     }
   }
   &__more {
+    width: 100vw;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 -1rem;
+    margin: 0;
     overflow: visible;
     &-title {
       margin-top: 88px;

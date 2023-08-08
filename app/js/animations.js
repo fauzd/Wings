@@ -135,6 +135,7 @@ if (window.innerWidth > 936) {
         ".hero__bg--addon",
         {
           y: 0,
+          xPercent: -50,
           scale: 1,
         },
         {
@@ -146,6 +147,7 @@ if (window.innerWidth > 936) {
             scrub: true,
           },
           y: -400,
+          xPercent: -50,
           scale: 2,
           transformOrigin: "bottom center",
         },
@@ -357,10 +359,7 @@ if (window.innerWidth > 936) {
 
   //Section features
   function createAnimationFeatures() {
-    const tlFeatures = gsap.timeline();
-
-    tlFeatures
-      .fromTo(
+      gsap.fromTo(
         ".features__title",
         {
           yPercent: -100,
@@ -369,16 +368,17 @@ if (window.innerWidth > 936) {
         {
           scrollTrigger: {
             trigger: ".features",
-            start: "top 70%",
-            end: "top 50%",
+            start: "top 50%",
+            // end: "top 30%",
             scroller: "[data-scroll-container]",
-            scrub: true,
+            // scrub: true,
           },
           yPercent: 0,
           opacity: 1,
+          duration: 2,
         }
-      )
-      .fromTo(
+      );
+      gsap.fromTo(
         ".features__card",
         {
           yPercent: -50,
@@ -386,15 +386,16 @@ if (window.innerWidth > 936) {
         },
         {
           scrollTrigger: {
-            trigger: ".features",
+            trigger: ".features__row",
             start: "top 60%",
-            end: "top 10%",
+            // end: "top 25%",
             scroller: "[data-scroll-container]",
-            scrub: true,
+            // scrub: true,
           },
           yPercent: 0,
           opacity: 1,
-          stagger: 0.5,
+          duration: 1,
+          stagger: 0.3,
         }
       );
   }

@@ -182,17 +182,20 @@
   }
   .hero {
     --bg-position: center top; 
-    height: 923px;
+    height: auto;
+    min-height: 100vh;
     max-width: 1920px;
     background-image: url(../images/header-bg-lg.png);
-    background-size: cover;
+    background-size: contain;
     background-position: center top;
     display: flex;
     justify-content: center;
     &__bg--addon {
       display: block;
       position: absolute;
-      bottom: -278px;
+      top: 0;
+      left: 50%;
+      width: 100%;
       z-index: 2;
     }
     &__container {
@@ -200,7 +203,7 @@
     }
     &__content {
       position: relative;
-      margin-top: 50px;
+      margin-top: 25px;
       max-width: 648px;
       &::before {
         content: none;
@@ -215,7 +218,7 @@
       opacity: 0;
       display: flex;
       flex-direction: row-reverse;
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
     &__text {
       opacity: 0;
@@ -509,7 +512,7 @@
     }
     &__content-list {
       margin: 0;
-      padding: 82px 0 168px 43px;
+      padding: 42px 0 128px 43px;
       // &-1 {
       //   background: #84a2ff;
       // }
@@ -539,16 +542,17 @@
         background-size: cover;
         background-repeat: no-repeat;
         border-radius: 35px;
-        min-width: 628px;
-        min-height: 504px;
-        top: 82px;
-        bottom: 67px;
-        right: 54px;
+        min-width: 500px;
+        min-height: 480px;
+        aspect-ratio: 5/4;
+        top: 65px;
+        bottom: 65px;
+        right: 65px;
       }
     }
     &__button {
       position: absolute;
-      bottom: 67px;
+      bottom: 35px;
       left: 45px;
     }
   }
@@ -602,11 +606,13 @@
   }
   .features {
     overflow: hidden;
+    display: flex;
+    align-items: center;
     &__container {
       overflow: visible;
     }
     &__title {
-      margin-bottom: 111px;
+      margin-bottom: 70px;
     }
     &__card {
       &-title {
@@ -614,7 +620,7 @@
         margin-bottom: 28px;
       }
       &-text {
-        margin-bottom: 152px;
+        margin-bottom: 70px;
       }
     }
   }
@@ -659,7 +665,7 @@
     }
     &__carousel-title {
       padding: 0;
-      margin: 0;
+      margin: 0 0 35px 0;
     }
     &__carousel-centerer {
       display: flex;
@@ -1127,7 +1133,7 @@
       padding: 0;
     }
     &__wrapper {
-      height: 65vh;
+      min-height: 65vh;
       display: flex;
       max-width: 1220px;
       margin: 0 auto;
